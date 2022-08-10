@@ -2,12 +2,12 @@ Blockly.Blocks['fetchbot_move'] = {
   init: function() {
     this.appendDummyInput()
         .appendField(Blockly.Msg["FETCHBOT_MOVE"])
-        .appendField(new Blockly.FieldDropdown([[Blockly.Msg["FETCHBOT_MOVE_FORWARD"],"forward"], [Blockly.Msg["FETCHBOT_MOVE_BACKWARD"],"reverse"], [Blockly.Msg["FETCHBOT_MOVE_LEFT"],"left"], [Blockly.Msg["FETCHBOT_MOVE_RIGHT"],"right"]]), "fetchbot_mouvement_field")
-        .appendField(Blockly.Msg["FETCHBOT_MOVE_SPEED"])
-        .appendField(new Blockly.FieldNumber(0.5), "speed")
-        .appendField(Blockly.Msg["FETCHBOT_MOVE_DURATION"])
-        .appendField(new Blockly.FieldNumber(1), "duration")
-        .appendField(Blockly.Msg["FETCHBOT_SECONDS"]);
+        .appendField(new Blockly.FieldDropdown([[Blockly.Msg["FETCHBOT_MOVE_FORWARD"],"forward"], [Blockly.Msg["FETCHBOT_MOVE_BACKWARD"],"backward"], [Blockly.Msg["FETCHBOT_MOVE_LEFT"],"left"], [Blockly.Msg["FETCHBOT_MOVE_RIGHT"],"right"]]), "fetchbot_mouvement_field")
+        //.appendField(Blockly.Msg["FETCHBOT_MOVE_SPEED"])
+        //.appendField(new Blockly.FieldNumber(0.5), "speed")
+        //.appendField(Blockly.Msg["FETCHBOT_MOVE_DURATION"])
+        //.appendField(new Blockly.FieldNumber(1), "duration")
+        //.appendField(Blockly.Msg["FETCHBOT_SECONDS"]);
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
     this.setColour(0);
@@ -18,9 +18,9 @@ Blockly.Blocks['fetchbot_move'] = {
 
 Blockly.Python['fetchbot_move'] = function(block) {
   var dropdown_fetchbot_mouvement = block.getFieldValue('fetchbot_mouvement_field');
-  var motor_speed = block.getFieldValue('speed')
-  var duration = block.getFieldValue('duration')
-  var code = `motor_control.${dropdown_fetchbot_mouvement}(speed=${motor_speed}, duration=${duration})\n`;
+  //var motor_speed = block.getFieldValue('speed')
+  //var duration = block.getFieldValue('duration')
+  var code = "fetchbot(\"" + dropdown_fetchbot_mouvement + "\")\n";
   return code;
 };
 
@@ -41,7 +41,7 @@ Blockly.Blocks['fetchbot_wait'] = {
 };
 
 Blockly.Python['fetchbot_wait'] = function(block) {
-  var code = `time.sleep(${block.getFieldValue('fetchbot_wait_field')})\n`;
+  var code = "time.sleep(" + block.getFieldValue('fetchbot_wait_field') + ")\n";
   return code;
 };
 

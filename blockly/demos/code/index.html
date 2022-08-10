@@ -7,6 +7,7 @@
   <title>Fetchbot Blockly</title>
   <link rel="stylesheet" href="style.css">
   
+  <script src="jquery-3.6.0.js"></script>
   <script src="../../blockly_compressed.js"></script>
   <script src="../../blocks_compressed.js"></script>
   <script src="../../javascript_compressed.js"></script>
@@ -20,8 +21,7 @@
   <table width="100%" height="100%">
     <tr>
       <td>
-        <h1>Fetchbot Blockly
-        </h1>
+        <h1>Fetchbot Blockly</h1>
       </td>
       <td class="farSide">
         <select id="languageMenu"></select>
@@ -51,14 +51,20 @@
               <select id="code_menu"></select>
             </td>
             <td class="tabmax">
-              <button id="trashButton" class="notext" title="...">
-                <img src='../../media/1x1.gif' class="trash icon21">
+              <button style="height: 30px; width: 50px; padding: 0px;" id="trashButton" title="...">
+                <img style="line-height: 0;" src='../../media/1x1.gif' class="trash icon21">
+              </button>
+              <button style="height: 30px; width: 50px; padding: 0px;">
+                <h1 style="font-size: 100%; transform: rotate(90deg); line-height: 0;"><b>⭮</b></h1>
               </button>
               <button id="linkButton" class="notext" title="...">
                 <img src='../../media/1x1.gif' class="link icon21">
               </button>
-              <button id="runButton" class="notext primary" title="...">
-                <img src='../../media/1x1.gif' class="run icon21">
+              <button style="background-color: green; height: 30px; width: 50px; padding: 0px; border:0px" id="runButton">
+                <h1 style="color:white; font-size: 100%; line-height: 0;">▶</h1>
+              </button>
+              <button style="background-color: #dd4b39; height: 30px; width: 50px; padding: 0px; border:0px" id="stopButton">
+                <h1 style="color: white; font-size: 100%; line-height: 0px; transform:scaleY(0.7)"><b>||</b></h1>
               </button>
             </td>
           </tr>

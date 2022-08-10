@@ -5,6 +5,7 @@ import time
 import numpy as np
 import base64
 from PIL import Image
+from flask_cors import CORS, cross_origin
 
 
 image = 200*np.ones((80,100,3), dtype=np.uint8)
@@ -13,6 +14,7 @@ pic = jpeg.tobytes()
 
 ser = None
 delay = time.time()
+message = "fetchbot"
 
 def connect():
 
@@ -21,7 +23,7 @@ def connect():
     while True:
         if ser == None:
             try:
-                ser = serial.Serial("COM8", timeout=0, baudrate=115000)
+                ser = serial.Serial("COM7", timeout=0, baudrate=115000)
                 print("Connected")
                 return
             except:
@@ -65,11 +67,14 @@ def display_video():
  
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.route('/video')
-def video():
+@app.route('/index')
+def index():
+    global message
     connect()
-    return render_template("video.html")
+    return render_template("index.html")
 
 @app.route('/video_feed')
 def video_feed():
@@ -78,14 +83,30 @@ def video_feed():
 
 @app.route('/command', methods=['POST'])
 def command():
-    print(request.form)
-    return "valid"
+    command = ((request.data).decode())
+    try:
+        ser.write(command.encode())
+    except:
+        connect()
+    return "200"
 
 @app.route('/code', methods=['POST'])
 def code():
-    print(request.form)
-    return "valid"
+    code = ((request.data).decode())
+    print(code)
+    exec(code)
+    return "200"
 
+@app.route('/message_in', methods=['POST'])
+def message_in():
+    global message
+    message = ((request.data).decode())
+    print(message)
+    return "200"
+
+@app.route('/message_out')
+def message_out():
+    return Response(message)
 
 
 app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)

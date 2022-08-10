@@ -351,12 +351,30 @@ Code.attemptCodeGeneration = function(generator) {
   content.textContent = '';
   if (Code.checkAllGeneratorFunctionsDefined(generator)) {
     var code = generator.workspaceToCode(Code.workspace);
-    content.textContent = "import motor_control\nimport time\n\n" + code;
-    console.log(content.textContent);
+    content.textContent = "from src.fetchbot import fetchbot\nimport time\n\n" + code;
     // Remove the 'prettyprinted' class, so that Prettify will recalculate.
     content.className = content.className.replace('prettyprinted', '');
   }
 };
+
+Code.attemptCodeGenerationRun = function(generator) {
+  if (Code.checkAllGeneratorFunctionsDefined(generator)) {
+    var code = generator.workspaceToCode(Code.workspace);
+    code = "from src.fetchbot import fetchbot\nimport time\n\n" + code
+    console.log(code);
+
+    $.ajax({
+            type: 'POST',
+            url: 'http://localhost:5000/code',
+            data: code,
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+  }
+};
+
+
 
 /**
  * Check whether all blocks in use have generator functions.
@@ -463,6 +481,7 @@ Code.init = function() {
   Code.bindClick('trashButton',
       function() {Code.discard(); Code.renderContent();});
   Code.bindClick('runButton', Code.runJS);
+  Code.bindClick('stopButton', Code.stopJS);
   // Disable the link button if page isn't backed by App Engine storage.
   var linkButton = document.getElementById('linkButton');
   if ('BlocklyStorage' in window) {
@@ -546,6 +565,7 @@ Code.initLanguage = function() {
 
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   document.getElementById('runButton').title = MSG['runTooltip'];
+  document.getElementById('stopButton').title = MSG['stopTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
 };
 
@@ -556,10 +576,12 @@ Code.initLanguage = function() {
  */
 Code.runJS = function(event) {
   // Prevent code from being executed twice on touchscreens.
+  Code.attemptCodeGenerationRun(Blockly.Python);
   if (event.type === 'touchend') {
     event.preventDefault();
   }
 
+/*
   Blockly.JavaScript.INFINITE_LOOP_TRAP = 'checkTimeout();\n';
   var timeouts = 0;
   var checkTimeout = function() {
@@ -573,6 +595,22 @@ Code.runJS = function(event) {
     eval(code);
   } catch (e) {
     alert(MSG['badCode'].replace('%1', e));
+  }
+  */
+};
+
+Code.stopJS = function(event) {
+
+$.ajax({
+      type: 'POST',
+      url: 'http://localhost:5000/code',
+      data: "",
+      cache: false,
+      processData: false,
+      contentType: false
+  });
+  if (event.type === 'touchend') {
+    event.preventDefault();
   }
 };
 
