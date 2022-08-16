@@ -422,6 +422,8 @@ Blockly.Msg["FETCHBOT_SECONDS"] = "second(s)";
 Blockly.Msg["FETCHBOT_WAIT"] = "wait";
 Blockly.Msg["FETCHBOT_START_CAMERA_DETECTION"] = "start camera image detection";
 Blockly.Msg["FETCHBOT_DETECTED_CLASS"] = "detected class";
+Blockly.Msg["FETCHBOT_MESSAGE"] = "say";
+Blockly.Msg["FETCHBOT_MESSAGE_HELLO"] = "hello";
 
 Blockly.Msg["MATH_HUE"] = "230";
 Blockly.Msg["LOOPS_HUE"] = "120";

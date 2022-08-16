@@ -351,7 +351,7 @@ Code.attemptCodeGeneration = function(generator) {
   content.textContent = '';
   if (Code.checkAllGeneratorFunctionsDefined(generator)) {
     var code = generator.workspaceToCode(Code.workspace);
-    content.textContent = "from src.fetchbot import fetchbot\nimport time\n\n" + code;
+    content.textContent = code; //"import src.fetchbot as fetchbot\nimport time\n\n" + 
     // Remove the 'prettyprinted' class, so that Prettify will recalculate.
     content.className = content.className.replace('prettyprinted', '');
   }
@@ -360,7 +360,7 @@ Code.attemptCodeGeneration = function(generator) {
 Code.attemptCodeGenerationRun = function(generator) {
   if (Code.checkAllGeneratorFunctionsDefined(generator)) {
     var code = generator.workspaceToCode(Code.workspace);
-    code = "from src.fetchbot import fetchbot\nimport time\n\n" + code
+    code = code;
     console.log(code);
 
     $.ajax({
@@ -565,7 +565,7 @@ Code.initLanguage = function() {
 
   document.getElementById('linkButton').title = MSG['linkTooltip'];
   document.getElementById('runButton').title = MSG['runTooltip'];
-  document.getElementById('stopButton').title = MSG['stopTooltip'];
+  document.getElementById('stopButton').title = "Stop." //MSG['stopTooltip'];
   document.getElementById('trashButton').title = MSG['trashTooltip'];
 };
 

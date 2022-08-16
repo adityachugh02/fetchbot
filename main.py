@@ -6,6 +6,7 @@ import numpy as np
 import base64
 from PIL import Image
 from flask_cors import CORS, cross_origin
+import subprocess
 
 
 image = 200*np.ones((80,100,3), dtype=np.uint8)
@@ -13,8 +14,7 @@ ret, jpeg = cv2.imencode('.jpg', image)
 pic = jpeg.tobytes()
 
 ser = None
-delay = time.time()
-message = "fetchbot"
+message = ""
 
 def connect():
 
@@ -76,6 +76,10 @@ def index():
     connect()
     return render_template("index.html")
 
+@app.route('/jquery-3.6.0.js')
+def js():
+    return app.send_static_file('jquery-3.6.0.js')
+
 @app.route('/video_feed')
 def video_feed():
     return Response(display_video(),
@@ -92,21 +96,48 @@ def command():
 
 @app.route('/code', methods=['POST'])
 def code():
+    global proc
+
     code = ((request.data).decode())
-    print(code)
-    exec(code)
+    if code != "":
+        code_head ='''
+import src.fetchbot as fetchbot
+import time
+
+'''
+
+        code = code_head + code
+        with open("temp.py", "w+") as file:
+            file.write(code)
+
+        try:
+            subprocess.Popen.terminate(proc)
+        except:
+            print("No process to terminate")
+
+        proc = subprocess.Popen(['python','temp.py'])
+
+    else:
+        try:
+            subprocess.Popen.terminate(proc)
+        except:
+            print("No process to terminate")
+        global message
+        message = ""
+
     return "200"
 
 @app.route('/message_in', methods=['POST'])
 def message_in():
     global message
     message = ((request.data).decode())
-    print(message)
     return "200"
 
-@app.route('/message_out')
+@app.route('/message_out', methods=['POST'])
 def message_out():
     return Response(message)
+
+
 
 
 app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)

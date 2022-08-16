@@ -20,7 +20,7 @@ Blockly.Python['fetchbot_move'] = function(block) {
   var dropdown_fetchbot_mouvement = block.getFieldValue('fetchbot_mouvement_field');
   //var motor_speed = block.getFieldValue('speed')
   //var duration = block.getFieldValue('duration')
-  var code = "fetchbot(\"" + dropdown_fetchbot_mouvement + "\")\n";
+  var code = "fetchbot.move(\"" + dropdown_fetchbot_mouvement + "\")\n";
   return code;
 };
 
@@ -68,4 +68,25 @@ Blockly.Blocks['fetchbot_detected_class'] = {
  this.setTooltip("");
  this.setHelpUrl("");
   }
+};
+
+Blockly.Blocks['fetchbot_message'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(Blockly.Msg["FETCHBOT_MESSAGE"])
+        .appendField(new Blockly.FieldTextInput(Blockly.Msg["FETCHBOT_MESSAGE_HELLO"]), "fetchbot_message_field");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(0);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+Blockly.Python['fetchbot_message'] = function(block) {
+  var fetchbot_message = block.getFieldValue('fetchbot_message_field');
+  //var motor_speed = block.getFieldValue('speed')
+  //var duration = block.getFieldValue('duration')
+  var code = "fetchbot.say(\"" + fetchbot_message + "\")\n";
+  return code;
 };
