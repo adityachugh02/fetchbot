@@ -12,7 +12,6 @@
     margin: 0px;
     padding: 0px;
     border: 1px solid #ddd;
-    background-color: #eee;
     color: #000;
 }
 
@@ -27,6 +26,7 @@
     height: 50px; 
     width: 50px;
 }
+
 button:hover>img {
   opacity: 1;
 }
@@ -36,22 +36,33 @@ button:active {
 button:hover {
   box-shadow: 2px 2px 5px #888;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
     </style>
-    <body>
-        <div>
-            <img style="border-radius: 4px" src="{{ url_for('video_feed') }}" width='100%'>
-            <div style="height:5px"></div>
-
-             <div style="height:55px; width: 100%; overflow: hidden;">
-                <div style="float: left;">
-                    <button class="reload" title="Refresh." onClick="window.location.reload();">
-                        <h1 style="font-size: 100%; transform: rotate(90deg); line-height:0"><b>⭮</b></h1>
-                    </button></div>
-                <div style="" class="message"><code id="message" style="font-size: 130%; padding:5px"></code></div>
-            </div>
-
-
-
+    <body style="font-family: sans-serif; margin-bottom: 0px;">
+        <img style="border-radius: 4px" src="{{ url_for('video_feed') }}" width='100%'>
+        <div style="height:5px"></div>
+        <div style="width: 100%;">
+            <div style="float: left;">
+                <button class="reload" title="Refresh." onClick="window.location.reload();">
+                    <h1 style="font-size: 100%; transform: rotate(90deg); line-height:0"><b>⭮</b></h1>
+                </button></div>
+            <div style="" class="message"><code id="message" style="font-size: 130%; padding:5px"></code></div>
         </div>
     </body>
 <script>

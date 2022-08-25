@@ -1,0 +1,173 @@
+<html>
+    <head>
+        <script src="jquery-3.6.0.js"></script>
+    </head>
+    <style>
+button:hover>img {
+  opacity: 1;
+}
+button:active {
+  border: 1px solid #888 !important;
+}
+button:hover {
+  box-shadow: 2px 2px 5px #888;
+}
+
+input:hover>img {
+  opacity: 1;
+}
+input:active {
+    border: 1px solid #888 !important;
+}
+input:hover {
+  box-shadow: 2px 2px 5px #888;
+}
+
+
+select:active {
+    border: 1px solid #888 !important;
+}
+select:hover {
+  box-shadow: 2px 2px 5px #888;
+}
+
+.model {
+    /*background-color: #eee;*/
+    border: solid #ddd;
+    border-radius: 4px;
+    overflow: auto;
+    margin: 0px;
+    padding: 4px;
+    border: 1px solid #ddd;
+    color: #000;
+    height: 95%;
+    position: relative;
+
+}
+
+.model_text {
+    /*margin-right: 5px;*/
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: medium;
+    background-color: white;
+    color: #000;
+}
+
+.model_enter {
+    /*margin-right: 5px;*/
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: medium;
+    background-color: #eee;
+    color: #000;
+}
+
+.model_button {
+    /*margin-right: 5px;*/
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size:4vw;
+    background-color: #eee;
+    color: #000;
+    height: 50px; 
+    width: 50px;
+}
+
+.model_dropdown {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: white;
+    color: #000;
+    width: 45%;
+    font-size: medium;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
+    </style>
+    <body style="font-family: sans-serif; margin-top: 0px;">
+        <div id="overlay" >
+            <div></div>
+        </div>
+
+        <div class="model">
+            <p style="display: inline; font-size: 130%">Classificateur IA</p>
+            <div style="height:5px"></div>
+            <form style="display: inline" method="POST" action="/select_class">
+            <label>Sélectionner une classe:</label>
+            <select name="selected_class" class="model_dropdown" method="GET" action="/" onchange="this.form.submit();">
+                {% for class in classes %}
+                <option value= "{{class}}" selected>{{class}}</option>"
+                {% endfor %}
+            </select>
+            </form>
+            <div style="height:5px"></div>
+            <form method="POST" autocomplete="off" action="/new_class">
+                <input style="width: 85%" name="new_class" class="model_text" placeholder="Ou créer nouvelle classe">
+                <input style="width: 10%" type="submit" class="model_enter" value="↵">
+            </form>
+
+            <div style="height: 90px; width: 100%; white-space: nowrap; overflow-y: hidden; border-radius: 5px;">
+            <form style="display: inline-flex; vertical-align: top;" method="POST" action="/get_image" type="submit">
+            <button style="border: none; height: 80px; width: 80px; border-radius: 5px">
+                <b style="color: #aaa; font-size: 500%; display:inline;">+</b>
+            </button>
+            </form>
+            {% for image in images %}
+            <img style="display: inline; border-radius: 5px" height="80px" src="data:image/jpg;base64, {{image}}">
+            {% endfor %}
+            </div>
+            <div style="height:10px"></div>
+            <div style="bottom: 5px; width: 98%">
+                <form style="display: inline;" method="POST" action="/train">
+                <button style="display: inline; width: 32%;" type="submit" class="model_button" onclick="on()">Entraîner<br>modèle</button>
+                </form>                
+                
+                <form style="display: inline;" method="POST" action="/delete_class">
+                <button style="display: inline; width: 32%;" type="submit" class="model_button">Supprimer<br>classe</button>
+                </form>
+
+                <form style="display: inline;" method="POST" action="/delete_all">
+                <button style="display: inline; width: 32%; background-color:#e8b3a9; border: 1px solid #e68f7e" type="submit" class="model_button">Tout<br>supprimer</button>
+                </form>
+            </div>
+        </div>
+<script>
+function on() {
+  document.getElementById("overlay").style.display = "block";
+}
+
+</script>
+    </body>
+</html>

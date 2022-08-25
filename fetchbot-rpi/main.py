@@ -5,10 +5,7 @@ import numpy as np
 import base64
 import motor_control
 import os
-
-
-camera_object = cv2.VideoCapture(-1,2)
-ser = None
+import subprocess as sp
 
 def connect():
     
@@ -34,6 +31,13 @@ def connect():
             print("Error")
             time.sleep(1)
 
+motor_control.ready()
+
+while len(sp.getoutput("hcitool con")) <= 12:
+    pass
+
+camera_object = cv2.VideoCapture(0)
+ser = None
 
 while True:
     try:

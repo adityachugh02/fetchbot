@@ -4,6 +4,10 @@ import gpiozero # Import the GPIO Zero Library
 
 right_motor = gpiozero.Motor(9, 10)
 left_motor = gpiozero.Motor(7, 8)
+led = gpiozero.LED(14)
+
+def ready():
+    led.on()
 
 def forward(speed=0.5, duration=0.1):
 

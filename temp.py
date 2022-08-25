@@ -1,11 +1,17 @@
 
+# coding: latin-1
 import src.fetchbot as fetchbot
 import time
 
 while True:
-  fetchbot.say("J'avance")
-  fetchbot.move("forward")
-  time.sleep(1)
-  fetchbot.say("Je tourne a droite")
-  fetchbot.move("right")
-  time.sleep(1)
+  if (fetchbot.predict()) == 'rien':
+    fetchbot.say("Il n'y a rien...")
+  if (fetchbot.predict()) == 'vert':
+    fetchbot.say("Je vois un jeton vert!")
+    fetchbot.move("forward")
+  if (fetchbot.predict()) == 'rouge':
+    fetchbot.say("Je vois un jeton rouge!")
+    fetchbot.move("backward")
+  if (fetchbot.predict()) == 'bleu':
+    fetchbot.say("Je vois un jeton bleu!")
+    fetchbot.move("right")

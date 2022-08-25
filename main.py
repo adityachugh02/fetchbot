@@ -1,3 +1,4 @@
+
 import cv2
 from flask import Flask, flash, request, send_from_directory, render_template, Response
 import serial
@@ -7,23 +8,47 @@ import base64
 from PIL import Image
 from flask_cors import CORS, cross_origin
 import subprocess
-
-
-image = 200*np.ones((80,100,3), dtype=np.uint8)
-ret, jpeg = cv2.imencode('.jpg', image)
-pic = jpeg.tobytes()
+import os
+import shutil
+import uuid
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+import tensorflow as tf
 
 ser = None
 message = ""
+classes = []
+current_class = ""
+model = ""
+class_names = []
+
+with open("preferences.txt", "r") as file:
+    lines = file.readlines()
+    for line in lines:
+        if line.startswith("COM"):
+            com_port = line
+            break
+
+image = cv2.imread("temp.jpg")
+ret, jpeg = cv2.imencode('.jpg', image)
+pic = jpeg.tobytes()
+
+def delete_classes():
+    global current_class
+    current_class = ""
+    if os.path.isdir("classes") == True:
+        shutil.rmtree("classes")
+        os.mkdir("classes")
+    else:
+        os.mkdir("classes")
+    return
 
 def connect():
-
     global ser
 
     while True:
         if ser == None:
             try:
-                ser = serial.Serial("COM7", timeout=0, baudrate=115000)
+                ser = serial.Serial(com_port, timeout=0, baudrate=115000)
                 print("Connected")
                 return
             except:
@@ -33,17 +58,15 @@ def connect():
             try:
                 ser.close()
                 ser = None
-                print("disconnecting, reconnecting...")
+                print("Disconnecting, reconnecting...")
                 time.sleep(1)
             except:
-                print("error")
+                print("Error")
                 time.sleep(1)
 
 
 def display_video():
-
     global pic
-    global time
 
     while True:
         try:
@@ -53,8 +76,10 @@ def display_video():
             image = ""
 
         if image !="":
-            try: 
+            try:
                 image_2 = base64.b64decode(str(image))
+                with open("temp.jpg", "wb") as fh:
+                    fh.write(image_2)
                 nparr = np.frombuffer(image_2, np.uint8)
                 image_2 = cv2.imdecode(nparr,cv2.IMREAD_UNCHANGED) 
                 ret, jpeg = cv2.imencode('.jpg', image_2)
@@ -62,45 +87,82 @@ def display_video():
             except:
                 pass
             #print("Video stream error")
-
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + pic + b'\r\n\r\n')
- 
 
-app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.route('/index')
-def index():
-    global message
-    connect()
-    return render_template("index.html")
+def train():
+    global model
+    global class_names
 
-@app.route('/jquery-3.6.0.js')
-def js():
-    return app.send_static_file('jquery-3.6.0.js')
+    img_height = 180
+    img_width = 180
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(display_video(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    train_ds = tf.keras.utils.image_dataset_from_directory(
+      "classes",
+      labels="inferred",
+      image_size=(img_height, img_width)
+      )
 
-@app.route('/command', methods=['POST'])
-def command():
-    command = ((request.data).decode())
-    try:
-        ser.write(command.encode())
-    except:
-        connect()
-    return "200"
+    class_names = train_ds.class_names
 
-@app.route('/code', methods=['POST'])
-def code():
+    num_classes = len(class_names)
+
+    model = tf.keras.models.Sequential([
+      tf.keras.layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
+      tf.keras.layers.Conv2D(16, 3, padding='same', activation='relu'),
+      tf.keras.layers.MaxPooling2D(),
+      tf.keras.layers.Conv2D(32, 3, padding='same', activation='relu'),
+      tf.keras.layers.MaxPooling2D(),
+      tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'),
+      tf.keras.layers.MaxPooling2D(),
+      tf.keras.layers.Flatten(),
+      tf.keras.layers.Dense(128, activation='relu'),
+      tf.keras.layers.Dense(num_classes)
+    ])
+
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
+
+    epochs=10
+    history = model.fit(
+      train_ds,
+      epochs=epochs
+    )
+
+def predict():
+    global model
+    global class_names
+
+    img_height = 180
+    img_width = 180
+
+    if model != "":
+        img = tf.keras.utils.load_img(
+            "temp.jpg", target_size=(img_height, img_width)
+        )
+        img_array = tf.keras.utils.img_to_array(img)
+        img_array = tf.expand_dims(img_array, 0) 
+
+        predictions = model.predict(img_array)
+        score = tf.nn.softmax(predictions[0])
+
+        return class_names[np.argmax(score)]
+    else:
+        return ""
+"""
+    print(
+        "This image most likely belongs to {} with a {:.2f} percent confidence."
+        .format(class_names[np.argmax(score)], 100 * np.max(score))
+    )
+"""
+
+def run_code(code):
     global proc
 
-    code = ((request.data).decode())
     if code != "":
         code_head ='''
+# coding: latin-1
 import src.fetchbot as fetchbot
 import time
 
@@ -125,19 +187,133 @@ import time
         global message
         message = ""
 
+def display_images():
+    global classes
+    global current_class
+    images = []
+    if len(classes) > 0:
+        for filename in os.listdir(f"classes/{current_class}/"):
+            with open(f"classes/{current_class}/{filename}", "rb") as image_file:
+                encoded_string = (base64.b64encode(image_file.read())).decode()
+                images.append(encoded_string)
+    return images
+
+app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+
+@app.route('/video')
+def video():
+    #connect()
+    return render_template("video.html")
+
+@app.route('/jquery-3.6.0.js')
+def js():
+    return app.send_static_file('jquery-3.6.0.js')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(display_video(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+        
+
+@app.route('/command', methods=['POST'])
+def command():
+    command = ((request.data).decode())
+    try:
+        ser.write(command.encode())
+    except:
+        connect()
+    return "200"
+
+@app.route('/code', methods=['POST'])
+def code():
+    code = (request.data).decode()
+    run_code(code)
     return "200"
 
 @app.route('/message_in', methods=['POST'])
 def message_in():
     global message
-    message = ((request.data).decode())
+    message = ((request.data).decode('latin-1'))
     return "200"
 
 @app.route('/message_out', methods=['POST'])
 def message_out():
     return Response(message)
 
+@app.route('/predict', methods=['POST'])
+def predict_():
+    return Response(predict())
 
+@app.route('/classifier')
+def classifier():
+    run_code("")
+    delete_classes()
+    return render_template("classifier.html")
 
+@app.route('/new_class', methods=['POST'])
+def new_class():
+    global classes
+    global current_class
+    if request.method == 'POST':
+        new_class = request.form['new_class']
+        if (new_class != "") and (new_class not in classes):
+            classes.append(new_class)
+            os.mkdir("classes/"+new_class)
+            current_class = new_class
+    return render_template("classifier.html", classes=classes, images=display_images())
+
+@app.route('/select_class', methods=['POST'])
+def select_class():
+    global classes
+    global current_class
+    selected_class = request.form["selected_class"]
+    classes.remove(selected_class)
+    classes.sort()
+    classes.append(selected_class)
+    current_class = selected_class
+    return render_template("classifier.html", classes=classes, images=display_images())
+
+@app.route('/train', methods=['POST'])
+def train_model():
+    train()
+    return render_template("classifier.html", classes=classes, images=display_images())
+
+@app.route('/delete_class', methods=['POST'])
+def delete_class():
+    global classes
+    global current_class
+    classes.remove(current_class)
+    if os.path.isdir("classes/"+current_class) == True:
+        shutil.rmtree("classes/"+current_class)
+    if len(classes) > 0:
+        current_class = classes[-1]
+    else:
+        current_class = ""
+    return render_template("classifier.html", classes=classes, images=display_images())
+
+@app.route('/delete_all', methods=['POST'])
+def delete_all():
+    global classes
+    global current_class
+    classes = []
+    current_class = ""
+    delete_classes()
+    return render_template("classifier.html", classes=classes, images=display_images())
+
+@app.route('/get_image', methods=['POST'])
+def get_image():
+    global current_class
+    if current_class != "":
+        target = f"classes/{current_class}/{str(uuid.uuid4())}.jpg"
+        try:
+            img = Image.open("temp.jpg")
+            img.verify()
+            shutil.copyfile("temp.jpg", target)
+        except:
+            pass
+    return render_template("classifier.html", classes=classes, images=display_images())
 
 app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)

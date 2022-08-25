@@ -70,6 +70,11 @@ Blockly.Blocks['fetchbot_detected_class'] = {
   }
 };
 
+Blockly.Python['fetchbot_detected_class'] = function(block) {
+  var code = "fetchbot.predict()";
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.Blocks['fetchbot_message'] = {
   init: function() {
     this.appendDummyInput()
@@ -85,8 +90,6 @@ Blockly.Blocks['fetchbot_message'] = {
 
 Blockly.Python['fetchbot_message'] = function(block) {
   var fetchbot_message = block.getFieldValue('fetchbot_message_field');
-  //var motor_speed = block.getFieldValue('speed')
-  //var duration = block.getFieldValue('duration')
   var code = "fetchbot.say(\"" + fetchbot_message + "\")\n";
   return code;
 };
