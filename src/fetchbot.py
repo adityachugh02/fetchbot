@@ -10,14 +10,21 @@ def move(direction):
 
 def say(message):
     try:
-        requests.post('http://localhost:5000/message_in', data = message, timeout=0.1)
+        requests.post('http://localhost:5000/message_in', data = str(message), timeout=0.1)
     except:
         pass
     return
 
 def predict():
     try:
-        response = requests.post('http://localhost:5000/predict', timeout=0.1)
+        response = requests.post('http://localhost:5000/predict', data = "class", timeout=0.2)
         return response.text
+    except:
+        pass
+
+def score():
+    try:
+        response = requests.post('http://localhost:5000/predict', data = "score", timeout=0.2)
+        return int(response.text)
     except:
         pass

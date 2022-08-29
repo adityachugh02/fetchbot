@@ -32,16 +32,6 @@ image = cv2.imread("temp.jpg")
 ret, jpeg = cv2.imencode('.jpg', image)
 pic = jpeg.tobytes()
 
-def delete_classes():
-    global current_class
-    current_class = ""
-    if os.path.isdir("classes") == True:
-        shutil.rmtree("classes")
-        os.mkdir("classes")
-    else:
-        os.mkdir("classes")
-    return
-
 def connect():
     global ser
 
@@ -130,7 +120,7 @@ def train():
       epochs=epochs
     )
 
-def predict():
+def predict(data):
     global model
     global class_names
 
@@ -147,15 +137,10 @@ def predict():
         predictions = model.predict(img_array)
         score = tf.nn.softmax(predictions[0])
 
-        return class_names[np.argmax(score)]
-    else:
-        return ""
-"""
-    print(
-        "This image most likely belongs to {} with a {:.2f} percent confidence."
-        .format(class_names[np.argmax(score)], 100 * np.max(score))
-    )
-"""
+        if data == "class":
+            return str(class_names[np.argmax(score)])
+        else:
+            return str(round(100 * np.max(score)))
 
 def run_code(code):
     global proc
@@ -198,6 +183,26 @@ def display_images():
                 images.append(encoded_string)
     return images
 
+def get_classes():
+    global classes
+    global current_class
+    classes = []
+    for folder in os.listdir(f"classes/"):
+        classes.append(folder)
+    if len(classes) > 0:
+        current_class = classes[-1]
+    return
+
+def delete_classes():
+    global current_class
+    current_class = ""
+    if os.path.isdir("classes") == True:
+        shutil.rmtree("classes")
+        os.mkdir("classes")
+    else:
+        os.mkdir("classes")
+    return
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -205,7 +210,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/video')
 def video():
-    #connect()
+    connect()
     return render_template("video.html")
 
 @app.route('/jquery-3.6.0.js')
@@ -220,7 +225,7 @@ def video_feed():
 
 @app.route('/command', methods=['POST'])
 def command():
-    command = ((request.data).decode())
+    command = (request.data).decode()
     try:
         ser.write(command.encode())
     except:
@@ -245,13 +250,17 @@ def message_out():
 
 @app.route('/predict', methods=['POST'])
 def predict_():
-    return Response(predict())
+    data = (request.data).decode()
+
+    return Response(predict(data))
 
 @app.route('/classifier')
 def classifier():
     run_code("")
-    delete_classes()
-    return render_template("classifier.html")
+    if os.path.isdir("classes") != True:
+        os.mkdir("classes")
+    get_classes()
+    return render_template("classifier.html", classes=classes, images=display_images())
 
 @app.route('/new_class', methods=['POST'])
 def new_class():
@@ -278,14 +287,17 @@ def select_class():
 
 @app.route('/train', methods=['POST'])
 def train_model():
-    train()
+    global classes
+    if len(classes) > 0:
+        train()
     return render_template("classifier.html", classes=classes, images=display_images())
 
 @app.route('/delete_class', methods=['POST'])
 def delete_class():
     global classes
     global current_class
-    classes.remove(current_class)
+    if current_class in classes:
+        classes.remove(current_class)
     if os.path.isdir("classes/"+current_class) == True:
         shutil.rmtree("classes/"+current_class)
     if len(classes) > 0:

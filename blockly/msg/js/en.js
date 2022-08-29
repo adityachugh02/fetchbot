@@ -420,10 +420,12 @@ Blockly.Msg["FETCHBOT_MOVE_SPEED"] = "speed:";
 Blockly.Msg["FETCHBOT_MOVE_DURATION"] = "duration:";
 Blockly.Msg["FETCHBOT_SECONDS"] = "second(s)";
 Blockly.Msg["FETCHBOT_WAIT"] = "wait";
-Blockly.Msg["FETCHBOT_START_CAMERA_DETECTION"] = "start camera image detection";
 Blockly.Msg["FETCHBOT_DETECTED_CLASS"] = "detected class";
-Blockly.Msg["FETCHBOT_MESSAGE"] = "say";
+Blockly.Msg["FETCHBOT_MESSAGE"] = "print";
 Blockly.Msg["FETCHBOT_MESSAGE_HELLO"] = "hello";
+Blockly.Msg["FETCHBOT_SCORE"] = "score of detected class";
+Blockly.Msg["FETCHBOT_CLASS_NAME"] = "class";
+
 
 Blockly.Msg["MATH_HUE"] = "230";
 Blockly.Msg["LOOPS_HUE"] = "120";

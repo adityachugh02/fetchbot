@@ -422,8 +422,10 @@ Blockly.Msg["FETCHBOT_SECONDS"] = "seconde(s)";
 Blockly.Msg["FETCHBOT_WAIT"] = "attendre";
 Blockly.Msg["FETCHBOT_START_CAMERA_DETECTION"] = "lancer la détection sur l'image de la caméra";
 Blockly.Msg["FETCHBOT_DETECTED_CLASS"] = "classe detectée";
-Blockly.Msg["FETCHBOT_MESSAGE"] = "dire";
+Blockly.Msg["FETCHBOT_MESSAGE"] = "afficher";
 Blockly.Msg["FETCHBOT_MESSAGE_HELLO"] = "bonjour";
+Blockly.Msg["FETCHBOT_SCORE"] = "score de la classe detectée";
+Blockly.Msg["FETCHBOT_CLASS_NAME"] = "classe";
 
 
 Blockly.Msg["MATH_HUE"] = "230";
