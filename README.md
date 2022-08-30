@@ -1,4 +1,5 @@
 # Project Description
+![image](https://user-images.githubusercontent.com/60618118/187421842-e59810de-1c8c-49c3-9af5-bb2beb6852a1.png)
 # Repository Structure
 # Installation
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
