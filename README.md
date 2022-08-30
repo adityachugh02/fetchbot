@@ -117,7 +117,7 @@ If you are using multiple bluetooth devices together, a unique channel needs to 
 In this case, enter:
 > sudo rfcomm release all
 
-> sudo rfcomm bind /dev/rfcomm1 XX:XX:XX:XX:XX:XX <CHANNEL NUMBER>
+> sudo rfcomm bind /dev/rfcomm0 XX:XX:XX:XX:XX:XX <CHANNEL NUMBER>
 
 By default, the Raspberry Pi is configured as an audio device which means that some services can be disabled. On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and deselect all checkboxes except **Audio Sink** (without this services the connection hangs) and **Serial Port (SPP)**.
 
