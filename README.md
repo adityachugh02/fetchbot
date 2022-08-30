@@ -1,10 +1,21 @@
 # Project Description
+The Fetchbot interface allows users to connect to and control a Raspberry Pi based robot "Fetchbot", without internet connection. The connection between a computer and the robot is established through serial-over-bluetooth. 
+
+
 ![image](https://user-images.githubusercontent.com/60618118/187421842-e59810de-1c8c-49c3-9af5-bb2beb6852a1.png)
 # Repository Structure
+The Fetchbot interface is composed of 3 parts: The Blockly frame, the video/message frame and the AI Classifier frame.
+
+Code for the Blockly frame can be viewed and edited in **/blockly/demos/code**.
+
+New blocks need to be added in **fetchbot.js** and **displayed in index.html**.
+
+Code for
+
 # Installation
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
 ## Raspberry Pi
-Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), install Raspberry Pi OS (Debian version 11: https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2022-04-07/2022-04-04-raspios-bullseye-armhf-full.img.xz)
+Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), install Raspberry Pi OS full 32-bit (Debian version 11 (version is **not** default): https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2022-04-07/2022-04-04-raspios-bullseye-armhf-full.img.xz)
 
 Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi. Start by configuring the basic preferences according to your region. 
 
