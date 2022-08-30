@@ -49,8 +49,6 @@ In the terminal, enter the following commands:
 
 > pip install -r requirements.txt
 
-> pip install opencv-python==4.5.3.56
-
 > pip install -U numpy
 
 ## Windows
