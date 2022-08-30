@@ -49,9 +49,9 @@ In the terminal, enter the following commands:
 
 > pip install pyserial
 
-pip install opencv-python==4.5.3.56
+> pip install opencv-python==4.5.3.56
 
-pip install -U numpy
+> pip install -U numpy
 
 ## Windows
 Download the recommended Windows installer for Python 3 from: https://www.python.org/downloads/windows/.
