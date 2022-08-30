@@ -68,7 +68,7 @@ In the command prompt, enter the following commands:
 
 > pip install -r requirements.txt
 
-Tensorflow requires a few additional libraries which can be downloaded from https://docs.microsoft.com/fr-FR/cpp/windows/latest-supported-vc-redist?view=msvc-170 (X64 version recommended)
+Tensorflow requires a few additional libraries which can be downloaded from https://docs.microsoft.com/fr-FR/cpp/windows/latest-supported-vc-redist?view=msvc-170 (X64 version recommended).
 
 # Bluetooth Setup
 To enable serial communication over bluetooth, in the terminal on the Raspberry Pi enter:
