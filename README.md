@@ -52,6 +52,8 @@ In the terminal, enter the following commands:
 > pip install -U numpy
 
 ## Windows
+Install Python 3 from: https://www.python.org/downloads/windows/.
+
 Navigate to https://github.com/adityachugh02/fetchbot/ and click on **code>Download ZIP**. Extract the files once the download is complete.
 
 **Or** if git is installed on Windows, in the command prompt enter:
