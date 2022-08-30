@@ -75,6 +75,7 @@ To enable serial communication over bluetooth, in the terminal on the Raspberry 
 Replace the line starting with **ExecStart=** with:
 
 > ExecStart=/usr/lib/bluetooth/bluetoothd --compat --noplugin=sap
+
 > ExecStartPost=/usr/bin/sdptool add SP
 
 Save and exit the file with CTRL+X.
