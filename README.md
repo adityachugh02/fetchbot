@@ -127,7 +127,7 @@ The program can be executed by double-clicking **start.sh** or from the command 
 For the program not to interfere with the startup processes, it is best the run the program once the startup is complete at auto login.
 
 In the Raspberry Pi terminal, enter:
-> sudo nano /home/pi/.bashrc
+> nano /home/pi/.bashrc
 
 Add this line at the end of the file:
 > python /home/pi/fetchbot-rpi/main.py
