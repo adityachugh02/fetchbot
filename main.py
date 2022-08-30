@@ -11,8 +11,9 @@ import subprocess
 import os
 import shutil
 import uuid
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # ignore tf warnings
 import tensorflow as tf
+import webbrowser
 
 ser = None
 message = ""
@@ -207,6 +208,7 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+webbrowser.open("index.html")
 
 @app.route('/video')
 def video():
