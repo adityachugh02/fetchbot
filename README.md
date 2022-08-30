@@ -47,9 +47,11 @@ In the terminal, enter the following commands:
 
 > cd fetchbot
 
-> pip install -r requirements.txt
+> pip install pyserial
 
-> pip install -U numpy
+pip install opencv-python==4.5.3.56
+
+pip install -U numpy
 
 ## Windows
 Download the recommended Windows installer for Python 3 from: https://www.python.org/downloads/windows/.
