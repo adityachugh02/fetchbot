@@ -7,7 +7,7 @@ Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), install Raspb
 
 Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi. Start by configuring the basic preferences according to your region. 
 
-After the configuration is complete, open a new terminal windows and enter:
+After the configuration is complete, open a new terminal window and enter:
 > sudo raspi-config
 ### Enable Legacy Camera
 Enable legacy camera in **Interface Options>Legacy Camera**.
@@ -26,7 +26,7 @@ Clone the project repository by entering the following in the terminal:
 
 ### Install Python Packages
 Connect the Raspberry Pi to the internet with ethernet.
-It is recommended to use SSH ( with ethernet) for the following steps.
+It is recommended to use SSH (with ethernet) for the following steps.
 
 In the terminal, enter the following commands:
 > sudo apt-get update
@@ -127,4 +127,4 @@ Save and exit the file with CTRL+X.
 Now the program should run automatically when the Raspberry Pi is powered.
 
 # Notes
-Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on.)
+Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on.)
