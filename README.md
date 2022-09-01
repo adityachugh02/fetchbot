@@ -104,7 +104,7 @@ On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices** an
 
 Connect to the device and confirm the security code on both devices.
 
-On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
+On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
 
 Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon upper left corner)***>Logout>Reboot.**
 
@@ -154,7 +154,7 @@ In the Raspberry Pi bluetoothctl, accept the service authorisation requests and 
 And exit bluetoothctl:
 > exit
 
-On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
+On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
 
 # Execution
 ## Windows
@@ -191,5 +191,5 @@ And reboot:
 Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on for longer than 5 seconds.)
 
 # Debugging
-If the bluetooth connection hangs (disconnects after a few seconds), check that all checkboxes have been checked in the properties of the connected device. (On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services**, and check all the checkboxes.)
+If the bluetooth connection hangs (disconnects after a few seconds), check that all checkboxes have been checked in the properties of the connected device. (On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services**, and check all the checkboxes.)
 
