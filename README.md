@@ -110,6 +110,8 @@ Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon
 
 *Optional: If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:*
 
+> CTRL+C
+
 > sudo bluetoothctl
 
 *To choose a new name for the Raspberry Pi, enter  in bluetoothctl:*
@@ -128,6 +130,7 @@ Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon
 ***Skip step if you paired from the desktop.***
 
 In the Rasberry Pi terminal, enter:
+
 > sudo bluetoothctl
 
 To choose a new name for the Raspberry Pi and make it discoverable and pairable in bluetoothctl, enter:
@@ -151,9 +154,7 @@ In the Raspberry Pi bluetoothctl, accept the service authorisation requests and 
 And exit bluetoothctl:
 > exit
 
-By default, the Raspberry Pi is configured as an audio device which means that some services can be disabled. On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and deselect all checkboxes except **Audio Sink** (without this services the connection hangs) and **Serial Port (SPP)**.
-
-Finally, make a note of the **COM port number**.
+On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
 
 # Execution
 ## Windows
@@ -163,17 +164,29 @@ The program can be executed by double-clicking **start.sh** or from the command 
 > python3 main.py
 
 ## Raspberry Pi
-For the program not to interfere with the startup processes, it is best the run the program once the startup is complete at auto login.
+The program starts automatically on startup (auto login).
 
-In the Raspberry Pi terminal, enter:
+The disable the auto start, open a new terminal window and enter:
+
+> CTRL+C
+
 > nano /home/pi/.bashrc
 
-Add this line at the end of the file:
-> python /home/pi/fetchbot-rpi/main.py
+Comment out the two last lines of the file:
+
+> Starting Fetchbot... ress CTRL+C to exit
+
+> #python /home/pi/fetchbot-rpi/main.py
 
 Save and exit the file with CTRL+X.
 
-Now the program should run automatically when the Raspberry Pi is powered.
+And reboot:
+
+> sudo reboot
 
 # Notes
 Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on for longer than 5 seconds.)
+
+# Debugging
+By default, the Raspberry Pi is configured as an audio device which means that some services can be disabled. On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and deselect all checkboxes except **Audio Sink** (without this services the connection hangs) and **Serial Port (SPP)**.
+
