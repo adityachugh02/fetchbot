@@ -100,6 +100,10 @@ Tensorflow requires a few additional libraries which can be downloaded from http
 ### Pairing From Raspberry Pi Desktop
 On the Raspberry Pi, click on the task bar **bluetooth icon** in the upper right corner of the desktop and select **Add Device**.
 
+On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices** and turn Bluetooth on. Next, click on **Add Bluetooth or other device** and select Bluetooth. A device named "raspberry_pi_1" should appear.
+
+Connect to the device and confirm the security code on both devices.
+
 If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:
 
 > sudo bluetoothctl
@@ -112,7 +116,7 @@ And exit bluetoothctl:
 
 > exit
 
-Finally, **reboot** the Raspberry Pi from **Applications menu (raspberry icon upper left corner)>Logout>Reboot**
+Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon upper left corner)***>Logout>Reboot.**
 
 ### Pairing From Terminal
 ***Skip step if you paired from the desktop.***
