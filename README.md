@@ -104,6 +104,9 @@ On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices** an
 
 Connect to the device and confirm the security code on both devices.
 
+On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
+
+
 If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:
 
 > sudo bluetoothctl
@@ -170,4 +173,4 @@ Save and exit the file with CTRL+X.
 Now the program should run automatically when the Raspberry Pi is powered.
 
 # Notes
-Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on.)
+Make sure that the bluetooth connection is active between the Raspberry Pi and the Windows PC before launching the program on the Windows PC. (The Raspberry Pi is ready for connection when the green led (pin 14) of the motor shield turns on for longer than 5 seconds.)
