@@ -20,7 +20,7 @@ Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), download and 
 
 Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi.
 ### Manual Installation 
-Skip step if you installed the custom image.
+***Skip step if you installed the custom image.***
 
 Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), install Raspberry Pi OS full 32-bit (Debian version 11 (version is **not** default): https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2022-04-07/2022-04-04-raspios-bullseye-armhf-full.img.xz)
 
@@ -96,8 +96,28 @@ In the command prompt, enter the following commands:
 
 Tensorflow requires a few additional libraries which can be downloaded from https://docs.microsoft.com/fr-FR/cpp/windows/latest-supported-vc-redist?view=msvc-170 (X64 version recommended).
 
-### Pairing
-Still in the Rasberry Pi terminal, enter:
+## Bluetooth Pairing
+### Pairing From Raspberry Pi Desktop
+On the Raspberry Pi, click on the task bar **bluetooth icon** in the upper right corner of the desktop and select **Add Device**.
+
+If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:
+
+> sudo bluetoothctl
+
+To choose a new name for the Raspberry Pi, enter  in bluetoothctl:
+
+> system-alias 'raspberry_pi_1'
+
+And exit bluetoothctl:
+
+> exit
+
+Finally, **reboot** the Raspberry Pi from **Applications menu (raspberry icon upper left corner)>Logout>Reboot**
+
+### Pairing From Terminal
+***Skip step if you paired from the desktop.***
+
+In the Rasberry Pi terminal, enter:
 > sudo bluetoothctl
 
 To choose a new name for the Raspberry Pi and make it discoverable and pairable in bluetoothctl, enter:
