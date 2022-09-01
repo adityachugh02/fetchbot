@@ -90,7 +90,7 @@ Navigate to https://github.com/adityachugh02/fetchbot/ and click on **code>Downl
 
 In the command prompt, enter the following commands:
 
-> cd fetchbot
+> cd *"path of the downloaded the fetchbot repository"*
 
 > pip install -r requirements.txt
 
@@ -162,7 +162,7 @@ On your **Windows PC**, navigate to **preferences.txt** in the fetchbot folder. 
 
 The program can be executed from the command prompt with:
 
-> cd "PATH"
+> cd *"path of the downloaded the fetchbot repository"*
 
 > python3 main.py
 
