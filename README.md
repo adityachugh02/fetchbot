@@ -162,7 +162,7 @@ On your **Windows PC**, navigate to **preferences.txt** in the fetchbot folder. 
 
 The program can be executed from the command prompt with:
 
-> cd <PATH>
+> cd "PATH"
 
 > python3 main.py
 
