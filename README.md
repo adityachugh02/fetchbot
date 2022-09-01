@@ -106,20 +106,23 @@ Connect to the device and confirm the security code on both devices.
 
 On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and make a note of the **COM port number** next to the **Serial Port (SPP)** checkbox.
 
+Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon upper left corner)***>Logout>Reboot.**
 
-If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:
+*Optional: If you wish to change the bluetooth name of your Raspberry Pi, enter in a new terminal window:*
 
 > sudo bluetoothctl
 
-To choose a new name for the Raspberry Pi, enter  in bluetoothctl:
+*To choose a new name for the Raspberry Pi, enter  in bluetoothctl:*
 
 > system-alias 'raspberry_pi_1'
 
-And exit bluetoothctl:
+*Exit bluetoothctl:*
 
 > exit
 
-Finally, **reboot** the Raspberry Pi from **Applications menu ***(raspberry icon upper left corner)***>Logout>Reboot.**
+*And reboot:*
+
+> sudo reboot
 
 ### Pairing From Terminal
 ***Skip step if you paired from the desktop.***
