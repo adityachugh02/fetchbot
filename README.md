@@ -166,7 +166,7 @@ The program can be executed by double-clicking **start.sh** or from the command 
 ## Raspberry Pi
 The program starts automatically on startup (auto login).
 
-The disable the auto start, open a new terminal window and enter:
+To disable the auto start, open a new terminal window and enter:
 
 > CTRL+C
 
