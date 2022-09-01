@@ -29,7 +29,7 @@ with open("preferences.txt", "r") as file:
             com_port = line
             break
 
-image = cv2.imread("temp.jpg")
+image = cv2.imread("offline.jpg")
 ret, jpeg = cv2.imencode('.jpg', image)
 pic = jpeg.tobytes()
 
