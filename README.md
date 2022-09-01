@@ -160,7 +160,10 @@ On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**
 ## Windows
 On your **Windows PC**, navigate to **preferences.txt** in the fetchbot folder. Replace the **COM port number** with the one noted. Save and exit the file.
 
-The program can be executed by double-clicking **start.sh** or from the command prompt with:
+The program can be executed from the command prompt with:
+
+> cd <PATH>
+
 > python3 main.py
 
 ## Raspberry Pi
