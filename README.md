@@ -15,28 +15,35 @@ Code for
 # Installation
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
 ## Raspberry Pi
+### Custom Image Installation
+Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), download and install the custom image from: **LINK**
+
+Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi.
+### Manual Installation 
+Skip step if you installed the custom image.
+
 Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), install Raspberry Pi OS full 32-bit (Debian version 11 (version is **not** default): https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2022-04-07/2022-04-04-raspios-bullseye-armhf-full.img.xz)
 
 Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi. Start by configuring the basic preferences according to your region. 
 
 After the configuration is complete, open a new terminal window and enter:
 > sudo raspi-config
-### Enable Legacy Camera
+#### Enable Legacy Camera
 Enable legacy camera in **Interface Options>Legacy Camera**.
-### Enable SSH
+#### Enable SSH
 Enable SSH in **Interface Options>SSH**.
-### Auto Login
+#### Auto Login
 Enable Auto Login in **System Options>Boot/Auto Login>Console Auto Login**.
-### Disable Wifi
+#### Disable Wifi
 Wifi and bluetooth tend to interfere because of their similar frequencies, it is recommended to disable the wifi while using bluetooth.
 In the terminal enter:
 > sudo ifconfig wlan0 down
 
-### Clone Repository
+#### Clone Repository
 Clone the project repository by entering the following in the terminal:
 > git clone https://github.com/adityachugh02/fetchbot/
 
-### Install Python Packages
+#### Install Python Packages
 Connect the Raspberry Pi to the internet with ethernet.
 It is recommended to use SSH (with ethernet) for the following steps.
 
@@ -47,11 +54,32 @@ In the terminal, enter the following commands:
 
 > cd fetchbot
 
-> pip install -r requirements.txt
+> pip install pyserial
+
+> pip install opencv-python==4.5.3.56
 
 > pip install -U numpy
 
+#### Bluetooth Setup
+To enable serial communication over bluetooth, in the terminal on the Raspberry Pi enter:
+> sudo nano /etc/systemd/system/dbus-org.bluez.service
+
+Replace the line starting with **ExecStart=** with:
+
+> ExecStart=/usr/lib/bluetooth/bluetoothd --compat --noplugin=sap
+
+> ExecStartPost=/usr/bin/sdptool add SP
+
+Save and exit the file with CTRL+X.
+
+Restart the bluetooth service with:
+> sudo systemctl daemon-reload;
+
+> sudo systemctl restart bluetooth.service;
+
 ## Windows
+Download the recommended Windows installer for Python 3 from: https://www.python.org/downloads/windows/.
+
 Navigate to https://github.com/adityachugh02/fetchbot/ and click on **code>Download ZIP**. Extract the files once the download is complete.
 
 **Or** if git is installed on Windows, in the command prompt enter:
@@ -66,27 +94,15 @@ In the command prompt, enter the following commands:
 
 > pip install -r requirements.txt
 
-# Bluetooth Setup
-To enable serial communication over bluetooth, in the terminal on the Raspberry Pi enter:
-> sudo nano /etc/systemd/system/dbus-org.bluez.service
-
-Replace the line starting with **ExecStart=** with:
-
-> ExecStart=/usr/lib/bluetooth/bluetoothd --compat --noplugin=sap
-> ExecStartPost=/usr/bin/sdptool add SP
-
-Save and exit the file with CTRL+X.
-
-Restart the bluetooth service with:
-> sudo systemctl daemon-reload;
-
-> sudo systemctl restart bluetooth.service;
+Tensorflow requires a few additional libraries which can be downloaded from https://docs.microsoft.com/fr-FR/cpp/windows/latest-supported-vc-redist?view=msvc-170 (X64 version recommended).
 
 ### Pairing
 Still in the Rasberry Pi terminal, enter:
 > sudo bluetoothctl
 
-In bluetoothctl, enter:
+To choose a new name for the Raspberry Pi and make it discoverable and pairable in bluetoothctl, enter:
+
+> system-alias 'raspberry_pi_1'
 
 > discoverable on
 
@@ -105,13 +121,6 @@ In the Raspberry Pi bluetoothctl, accept the service authorisation requests and 
 And exit bluetoothctl:
 > exit
 
-If you are using multiple bluetooth devices together, a unique channel needs to be assigned to each Raspberry Pi.
-
-In this case, enter:
-> sudo rfcomm release all
-
-> sudo rfcomm bind /dev/rfcomm1 XX:XX:XX:XX:XX:XX <CHANNEL NUMBER>
-
 By default, the Raspberry Pi is configured as an audio device which means that some services can be disabled. On On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services** and deselect all checkboxes except **Audio Sink** (without this services the connection hangs) and **Serial Port (SPP)**.
 
 Finally, make a note of the **COM port number**.
@@ -127,7 +136,7 @@ The program can be executed by double-clicking **start.sh** or from the command 
 For the program not to interfere with the startup processes, it is best the run the program once the startup is complete at auto login.
 
 In the Raspberry Pi terminal, enter:
-> sudo nano /home/pi/.bashrc
+> nano /home/pi/.bashrc
 
 Add this line at the end of the file:
 > python /home/pi/fetchbot-rpi/main.py
