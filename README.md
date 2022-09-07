@@ -1,6 +1,7 @@
 # Project Description
 The Fetchbot interface allows users to connect to and control a Raspberry Pi based robot "Fetchbot", without internet connection. The connection between a computer and the robot is established through serial-over-bluetooth. 
 
+Please refer to the last section for code editing.
 
 ![image](https://user-images.githubusercontent.com/60618118/187421842-e59810de-1c8c-49c3-9af5-bb2beb6852a1.png)
 
@@ -185,3 +186,4 @@ Make sure that the bluetooth connection is active between the Raspberry Pi and t
 # Debugging
 If the bluetooth connection hangs (disconnects after a few seconds), check that all checkboxes have been checked in the properties of the connected device. (On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services**, and check all the checkboxes.)
 
+#Editing
