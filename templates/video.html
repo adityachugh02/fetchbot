@@ -58,11 +58,22 @@ button:hover {
         <img style="border-radius: 4px" src="{{ url_for('video_feed') }}" width='100%'>
         <div style="height:5px"></div>
         <div style="width: 100%;">
-            <div style="float: left;">
+            <div style="float: left; margin: 0px">
                 <button class="reload" title="Refresh." onClick="window.location.reload();">
                     <h1 style="font-size: 100%; transform: rotate(90deg); line-height:0"><b>⭮</b></h1>
-                </button></div>
-            <div style="" class="message"><code id="message" style="font-size: 130%; padding:5px"></code></div>
+                </button>
+                <form style="display: inline;" method="POST" action="/camera">
+                <button class="reload" style="width:80px; margin-left: -5px" title="Switch Camera.">
+                    <div style="line-height: 0">
+                    <b>
+                        <span style="transform: rotate(-90deg); display: inline-block">↶</span><span style="font-size: 100%; line-height:0;">📷</span><span style="transform: rotate(90deg); display: inline-block">↶</span>
+                    </b>
+                    </div>
+                </button>
+                </form>
+            </div>
+        </div>
+        <div style="" class="message"><code id="message" style="font-size: 130%; padding:5px"></code></div>
         </div>
     </body>
 <script>

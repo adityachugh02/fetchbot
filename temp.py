@@ -3,4 +3,8 @@
 import src.fetchbot as fetchbot
 import time
 
-fetchbot.move("forward")
+while True:
+  fetchbot.move("forward")
+  time.sleep(1)
+  fetchbot.move("backward")
+  time.sleep(1)

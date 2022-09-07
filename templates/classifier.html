@@ -33,12 +33,11 @@ select:hover {
 
 .model {
     /*background-color: #eee;*/
-    border: solid #ddd;
     border-radius: 4px;
     overflow: auto;
     margin: 0px;
     padding: 4px;
-    border: 1px solid #ddd;
+    /*border: 1px solid #ddd;*/
     color: #000;
     height: 95%;
     position: relative;
@@ -178,7 +177,7 @@ select:hover {
             {% endfor %}
             </div>
             <div style="height:10px"></div>
-            <div style="bottom: 5px; width: 98%">
+            <div style="bottom: 5px; width: 100%;">
                 <form style="display: inline;" method="POST" action="/train">
                 <button style="display: inline; width: 32%;" type="submit" class="model_button" onclick="on()">Entraîner<br>modèle</button>
                 </form>                

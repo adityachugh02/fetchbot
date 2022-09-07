@@ -15,12 +15,15 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' # ignore tf warnings
 import tensorflow as tf
 import webbrowser
 
+camera = 1
 ser = None
 message = ""
 classes = []
 current_class = ""
 model = ""
 class_names = []
+
+camera_object = cv2.VideoCapture(0)
 
 with open("preferences.txt", "r") as file:
     lines = file.readlines()
@@ -58,26 +61,40 @@ def connect():
 
 def display_video():
     global pic
-
+    global camera
     while True:
-        try:
-            image = ser.readline().decode()
-        except:
-            time.sleep(1)
-            image = ""
-
-        if image !="":
+        if camera == 0:
             try:
-                image_2 = base64.b64decode(str(image))
-                with open("temp.jpg", "wb") as fh:
-                    fh.write(image_2)
-                nparr = np.frombuffer(image_2, np.uint8)
-                image_2 = cv2.imdecode(nparr,cv2.IMREAD_UNCHANGED) 
-                ret, jpeg = cv2.imencode('.jpg', image_2)
+                image = ser.readline().decode()
+            except:
+                time.sleep(1)
+                image = ""
+
+            if image !="":
+                try:
+                    image_2 = base64.b64decode(str(image))
+                    with open("temp.jpg", "wb") as fh:
+                        fh.write(image_2)
+                    nparr = np.frombuffer(image_2, np.uint8)
+                    image_2 = cv2.imdecode(nparr,cv2.IMREAD_UNCHANGED) 
+                    ret, jpeg = cv2.imencode('.jpg', image_2)
+                    pic = jpeg.tobytes()
+                except:
+                    pass
+                #print("Video stream error")
+        else:
+            try:
+                ret, picture = camera_object.read()
+                #k = 10
+                #width = int((picture.shape[1])/k)
+                #height = int((picture.shape[0])/k)
+                #picture = cv2.resize(picture, (width, height), interpolation=cv2.INTER_AREA)
+                cv2.imwrite("temp.jpg", picture)
+                ret, jpeg = cv2.imencode('.jpg', picture)
                 pic = jpeg.tobytes()
             except:
-                pass
-            #print("Video stream error")
+                print("Camera error")
+
         yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + pic + b'\r\n\r\n')
 
 
@@ -212,7 +229,9 @@ webbrowser.open("index.html")
 
 @app.route('/video')
 def video():
-    connect()
+    global camera
+    if camera == 0:
+        connect()
     return render_template("video.html")
 
 @app.route('/jquery-3.6.0.js')
@@ -223,7 +242,15 @@ def js():
 def video_feed():
     return Response(display_video(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-        
+
+@app.route('/camera', methods=['POST'])
+def switch_camera():
+    global camera
+    if camera == 0:
+        camera = 1
+    else:
+        camera =0
+    return video()       
 
 @app.route('/command', methods=['POST'])
 def command():

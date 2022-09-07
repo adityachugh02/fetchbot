@@ -3,14 +3,6 @@ The Fetchbot interface allows users to connect to and control a Raspberry Pi bas
 
 
 ![image](https://user-images.githubusercontent.com/60618118/187421842-e59810de-1c8c-49c3-9af5-bb2beb6852a1.png)
-# Repository Structure
-The Fetchbot interface is composed of 3 parts: The Blockly frame, the video/message frame and the AI Classifier frame.
-
-Code for the Blockly frame can be viewed and edited in **/blockly/demos/code**.
-
-New blocks need to be added in **fetchbot.js** and **displayed in index.html**.
-
-Code for
 
 # Installation
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
