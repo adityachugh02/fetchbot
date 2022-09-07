@@ -85,10 +85,10 @@ def display_video():
         else:
             try:
                 ret, picture = camera_object.read()
-                #k = 10
-                #width = int((picture.shape[1])/k)
-                #height = int((picture.shape[0])/k)
-                #picture = cv2.resize(picture, (width, height), interpolation=cv2.INTER_AREA)
+                k = 4
+                width = int((picture.shape[1])/k)
+                height = int((picture.shape[0])/k)
+                picture = cv2.resize(picture, (width, height), interpolation=cv2.INTER_AREA)
                 cv2.imwrite("temp.jpg", picture)
                 ret, jpeg = cv2.imencode('.jpg', picture)
                 pic = jpeg.tobytes()
@@ -133,10 +133,7 @@ def train():
                   metrics=['accuracy'])
 
     epochs=10
-    history = model.fit(
-      train_ds,
-      epochs=epochs
-    )
+    history = model.fit(train_ds, epochs=epochs)
 
 def predict(data):
     global model
@@ -195,10 +192,17 @@ def display_images():
     global current_class
     images = []
     if len(classes) > 0:
-        for filename in os.listdir(f"classes/{current_class}/"):
+        class_directory = f"classes/{current_class}/"
+        list_of_images = filter( lambda x: os.path.isfile(os.path.join(class_directory, x)),
+                        os.listdir(class_directory) )
+        list_of_images = sorted( list_of_images,
+                                key = lambda x: os.path.getmtime(os.path.join(class_directory, x))
+                                )
+        for filename in list_of_images:
             with open(f"classes/{current_class}/{filename}", "rb") as image_file:
                 encoded_string = (base64.b64encode(image_file.read())).decode()
                 images.append(encoded_string)
+        images.reverse()
     return images
 
 def get_classes():
@@ -275,6 +279,7 @@ def message_in():
 
 @app.route('/message_out', methods=['POST'])
 def message_out():
+    global message
     return Response(message)
 
 @app.route('/predict', methods=['POST'])
@@ -348,13 +353,14 @@ def delete_all():
 def get_image():
     global current_class
     if current_class != "":
+
         target = f"classes/{current_class}/{str(uuid.uuid4())}.jpg"
         try:
             img = Image.open("temp.jpg")
             img.verify()
             shutil.copyfile("temp.jpg", target)
         except:
-            pass
+            print("Bad image")
     return render_template("classifier.html", classes=classes, images=display_images())
 
 app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)
