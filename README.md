@@ -9,7 +9,7 @@ Please refer to the last section for interface description & editing.
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
 ## Raspberry Pi
 ### Custom Image Installation
-Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), download and install the custom image from: **LINK**
+Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), download and install the custom image from: https://drive.google.com/file/d/1mQ5GR-Hh-p75FYHY6_OlHBRY7kKcDEiC/view
 
 Once the OS is loaded onto the SD card, connect a display, mouse and a keyboard to the Raspberry Pi.
 ### Manual Installation 
