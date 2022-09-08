@@ -202,4 +202,34 @@ The **temp.py** file uses the **fetchbot.py** library in **src/** to send mouvem
 
 The image feed is sent from the robot to the master program via the serial-over-bluetooth connection.
 
+The AI classifier allows the user to take image stills from the video feed and save them to a created class. The created classes and images are found in **classes**.
+
 ## Adding blocks to blockly
+
+A new block can be created using the Blockly block factory tool in **blockly/demos/blockfactory/index.html**. 
+
+New blocks are created by defining their inputs, fields, types and colours using the drag and drop interface on the left.
+
+The *Block Definition* specifies what the block looks like and the *Generator stub* specifies what the code does (the python line of code associated to it).
+
+Once a new block is created, copy the *Block Definition* (select JavaScript) and the *Generator stub* (select Python), and paste it at the end of **blockly/demos/code/fetchbot.js**. 
+```
+Blockly.Blocks['print_hello'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("this block prints hello");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(230);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+```
+```
+Blockly.Python['print_hello'] = function(block) {
+  // TODO: Assemble Python into code variable.
+  var code = 'print("hello")\n';
+  return code;
+};
+```
