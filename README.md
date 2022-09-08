@@ -1,7 +1,7 @@
 # Project Description
 The Fetchbot interface allows users to connect to and control a Raspberry Pi based robot "Fetchbot", without internet connection. The connection between a computer and the robot is established through serial-over-bluetooth. 
 
-Please refer to the last section for code editing.
+Please refer to the last section for interface description & editing.
 
 ![image](https://user-images.githubusercontent.com/60618118/187421842-e59810de-1c8c-49c3-9af5-bb2beb6852a1.png)
 
@@ -186,4 +186,20 @@ Make sure that the bluetooth connection is active between the Raspberry Pi and t
 # Debugging
 If the bluetooth connection hangs (disconnects after a few seconds), check that all checkboxes have been checked in the properties of the connected device. (On your **Windows PC** go to **Settings>Devices>Bluetooth and other devices**, on the right, click on **Devices and printers**. While the bluetooth connection is active, right-click the Raspberry Pi and select **Properties**. In the **Properties** window, select **services**, and check all the checkboxes.)
 
-#Editing
+# Interface Description & Editing
+The **index.html** file holds 3 iframes:
+- Blockly Interface (JS)
+- Video & test box (Python Flask)
+- AI Classifier (Python Flask)
+
+Code for the Blockly Interface are found in **blockly/demos/code/**.
+
+The html files for the video & text box and the AI classifier are found in **templates/**.
+
+**Main.py** or master program runs a flask server which serves the video & test box and the AI classifier. When the "start" button is pressed on the blockly interface, a POST request with the python translated code is sent to the master program. The master program creates a new **temp.py** python file based on this translated code, which is then executed as subprocess.
+
+The **temp.py** file uses the **fetchbot.py** library in **src/** to send mouvement and text commands by POST requests to the master program, the latter then sends those commands to the robot via serial-over-bluetooth (as only one serial connection can exist at a time).
+
+The image feed is sent from the robot to the master program via the serial-over-bluetooth connection.
+
+## Adding blocks to blockly
