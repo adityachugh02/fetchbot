@@ -210,6 +210,8 @@ A new block can be created using the Blockly block factory tool in **blockly/dem
 
 New blocks are created by defining their inputs, fields, types and colours using the drag and drop interface on the left.
 
+![5](https://user-images.githubusercontent.com/60618118/189106393-2c2b5237-c12d-4a67-bbe8-14e4266e8162.png)
+
 The *Block Definition* specifies what the block looks like and the *Generator stub* specifies what the code does (the python line of code associated to it).
 
 Once a new block is created, copy the *Block Definition* (select JavaScript) and the *Generator stub* (select Python), and paste it at the end of **blockly/demos/code/fetchbot.js**. 
@@ -232,4 +234,9 @@ Blockly.Python['print_hello'] = function(block) {
   var code = 'print("hello")\n';
   return code;
 };
+```
+
+To display this block on the blockly interface, add the following line between the `<category name="Fetchbot" colour="#a83236"></category>` tags in **blockly/demos/code/index.html**:
+```
+<block type="print_hello"></block>
 ```
