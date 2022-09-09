@@ -17,14 +17,14 @@ def say(message):
 
 def predict():
     try:
-        response = requests.post('http://localhost:5000/predict', data = "class", timeout=0.5)
+        response = requests.post('http://localhost:5000/predict', data = "class", timeout=0.2)
         return response.text
     except:
         pass
 
 def score():
     try:
-        response = requests.post('http://localhost:5000/predict', data = "score", timeout=0.5)
+        response = requests.post('http://localhost:5000/predict', data = "score", timeout=0.2)
         return int(response.text)
     except:
         pass
