@@ -101,39 +101,45 @@ def display_video():
 def train():
     global model
     global class_names
+    global message
 
-    img_height = 180
-    img_width = 180
+    try:
+        img_height = 180
+        img_width = 180
 
-    train_ds = tf.keras.utils.image_dataset_from_directory(
-      "classes",
-      labels="inferred",
-      image_size=(img_height, img_width)
-      )
+        train_ds = tf.keras.utils.image_dataset_from_directory(
+          "classes",
+          labels="inferred",
+          image_size=(img_height, img_width)
+          )
 
-    class_names = train_ds.class_names
+        class_names = train_ds.class_names
 
-    num_classes = len(class_names)
+        num_classes = len(class_names)
 
-    model = tf.keras.models.Sequential([
-      tf.keras.layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
-      tf.keras.layers.Conv2D(16, 3, padding='same', activation='relu'),
-      tf.keras.layers.MaxPooling2D(),
-      tf.keras.layers.Conv2D(32, 3, padding='same', activation='relu'),
-      tf.keras.layers.MaxPooling2D(),
-      tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'),
-      tf.keras.layers.MaxPooling2D(),
-      tf.keras.layers.Flatten(),
-      tf.keras.layers.Dense(128, activation='relu'),
-      tf.keras.layers.Dense(num_classes)
-    ])
+        model = tf.keras.models.Sequential([
+          tf.keras.layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
+          tf.keras.layers.Conv2D(16, 3, padding='same', activation='relu'),
+          tf.keras.layers.MaxPooling2D(),
+          tf.keras.layers.Conv2D(32, 3, padding='same', activation='relu'),
+          tf.keras.layers.MaxPooling2D(),
+          tf.keras.layers.Conv2D(64, 3, padding='same', activation='relu'),
+          tf.keras.layers.MaxPooling2D(),
+          tf.keras.layers.Flatten(),
+          tf.keras.layers.Dense(128, activation='relu'),
+          tf.keras.layers.Dense(num_classes)
+        ])
 
-    model.compile(optimizer='adam',
-                  loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-                  metrics=['accuracy'])
+        model.compile(optimizer='adam',
+                      loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                      metrics=['accuracy'])
 
-    epochs=10
-    history = model.fit(train_ds, epochs=epochs)
+        epochs=10
+        history = model.fit(train_ds, epochs=epochs)
+
+        message = "Training Successful"
+    except:
+        message = "Training Failed"
 
 def predict(data):
     global model
@@ -224,6 +230,16 @@ def delete_classes():
     else:
         os.mkdir("classes")
     return
+
+def copy_image(target):
+    try:
+        shutil.copyfile("temp.jpg", target)
+        img = Image.open(target)
+        img.verify()
+        return
+    except:
+        print("Bad image")
+        copy_image(target)
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -353,14 +369,12 @@ def delete_all():
 def get_image():
     global current_class
     if current_class != "":
-
-        target = f"classes/{current_class}/{str(uuid.uuid4())}.jpg"
-        try:
-            img = Image.open("temp.jpg")
-            img.verify()
-            shutil.copyfile("temp.jpg", target)
-        except:
-            print("Bad image")
+        unique = str(uuid.uuid4())
+        print(unique)
+        target = f"classes/{current_class}/{unique}.jpg"
+        print(target)
+        copy_image(target)
+            
     return render_template("classifier.html", classes=classes, images=display_images())
 
 app.run(host='0.0.0.0', port=5000, threaded=True, debug=False)

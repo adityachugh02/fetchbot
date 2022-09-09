@@ -3,4 +3,5 @@
 import src.fetchbot as fetchbot
 import time
 
-fetchbot.say('hello')
+while True:
+  fetchbot.say(fetchbot.predict())
