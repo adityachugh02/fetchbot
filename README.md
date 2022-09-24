@@ -7,6 +7,10 @@ Please refer to the last section for interface description & editing.
 
 # Installation
 This project has been tested on a Windows 10 64-bit machine and a Raspberry Pi 4.
+
+*Presentation & installation video:*
+
+[![Installation video](https://img.youtube.com/vi/bC7nAwIKf-U/0.jpg)](https://www.youtube.com/watch?v=bC7nAwIKf-U)
 ## Raspberry Pi
 ### Custom Image Installation
 Using Raspberry Pi Imager (https://www.raspberrypi.com/software/), download and install the custom image from: https://drive.google.com/file/d/1mQ5GR-Hh-p75FYHY6_OlHBRY7kKcDEiC/view
